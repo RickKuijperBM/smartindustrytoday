@@ -1,0 +1,20 @@
+version: '3.8'  # The Docker Compose file format version
+
+services:  # Define the services (containers) that make up the application
+  backend:
+    build:  # Build instructions for the backend service
+      context: ./backend  # Path to the backend directory
+    ports:
+      - "8000:8000"  # Map port 8000 of the container to port 8000 of the host
+    volumes:
+      - ./backend:/app  # Mount the backend folder on the host to /app in the container
+
+  frontend:
+    build:  # Build instructions for the frontend service
+      context: ./frontend  # Path to the frontend directory
+    ports:
+      - "3000:3000"  # Map port 3000 of the container to port 3000 of the host
+    environment:
+      - CHOKIDAR_USEPOLLING=true  # Environment variable for React's live-reload
+    volumes:
+      - ./frontend:/app  # Mount the frontend folder on the host to /app in the container
