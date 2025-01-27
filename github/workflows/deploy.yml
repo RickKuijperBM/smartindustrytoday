@@ -1,0 +1,23 @@
+name: Deploy to Strato
+
+on:
+  push:
+    branches:
+      - main  # Trigger deployment when changes are pushed to the 'main' branch
+
+jobs:
+  deploy:
+    runs-on: debian-12
+
+    steps:
+    - name: Checkout repository
+      uses: actions/checkout@v3
+
+    - name: Deploy to Server
+      run: |
+        ssh -o StrictHostKeyChecking=no username@your-server-ip << EOF
+        cd /path/to/your-app  # Navigate to your app's directory
+        git pull              # Pull the latest changes
+        docker-compose down   # Stop the existing containers
+        docker-compose up -d  # Rebuild and start the containers
+        EOF
